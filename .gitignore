@@ -1,0 +1,6 @@
+appdata/*
+db/*
+*.env
+production/*.env
+!sample.*
+!production/sample.*

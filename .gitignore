@@ -1,5 +1,8 @@
+appdata
+db
 appdata/*
 db/*
+
 *.env
 production/*.env
 !sample.*

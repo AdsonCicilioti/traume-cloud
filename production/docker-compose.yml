@@ -2,7 +2,7 @@ version: '3'
 
 services:
   db:
-    image: postgres:alpine
+    image: postgres:13-alpine
     restart: always
     volumes:
       - ../db:/var/lib/postgresql/data
@@ -32,9 +32,8 @@ services:
     restart: always
     volumes:
       - ../appdata:/var/www/html:ro
-      env_file:
-        - ssl.env
-  
+    env_file:
+      - ssl.env
     depends_on:
       - app
     networks:
@@ -60,9 +59,9 @@ services:
     labels:
       com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy: "true"
     volumes:
-      - .certs:/etc/nginx/certs:ro
-      - .vhost.d:/etc/nginx/vhost.d
-      - .html:/usr/share/nginx/html
+      - ./certs:/etc/nginx/certs:ro
+      - ./vhost.d:/etc/nginx/vhost.d
+      - ./html:/usr/share/nginx/html
       - /var/run/docker.sock:/tmp/docker.sock:ro
     networks:
       - proxy-tier
@@ -80,20 +79,20 @@ services:
     depends_on:
       - proxy
 
-# self signed
-#  omgwtfssl:
-#    image: paulczar/omgwtfssl
-#    restart: "no"
-#    volumes:
-#      - certs:/certs
-#    environment:
-#      - SSL_SUBJECT=servhostname.local
-#      - CA_SUBJECT=my@example.com
-#      - SSL_KEY=/certs/servhostname.local.key
-#      - SSL_CSR=/certs/servhostname.local.csr
-#      - SSL_CERT=/certs/servhostname.local.crt
-#    networks:
-#      - proxy-tier
+###### self signed
+  # omgwtfssl:
+  #   image: paulczar/omgwtfssl
+  #   restart: "no"
+  #   volumes:
+  #     - ./certs:/certs
+  #   environment:
+  #     - SSL_SUBJECT=cloud.traume.com.br
+  #     - CA_SUBJECT=cloud@traume.com.br
+  #     - SSL_KEY=/certs/cloud.traume.com.br.key
+  #     - SSL_CSR=/certs/cloud.traume.com.br.csr
+  #     - SSL_CERT=/certs/cloud.traume.com.br.crt
+  #   networks:
+  #     - proxy-tier
 
 
 networks:

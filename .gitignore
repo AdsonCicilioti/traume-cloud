@@ -7,3 +7,7 @@ db/*
 production/*.env
 !sample.*
 !production/sample.*
+
+production/certs
+production/vhost.d
+production/html
